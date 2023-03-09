@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.hello.dto.UserDto;
@@ -16,7 +15,7 @@ import ro.unibuc.hello.service.UserService;
 
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserSignupController {
@@ -28,6 +27,7 @@ public class UserSignupController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
+
         LOGGER.info("RegisterController: " + userDto);
         UserEntity user = userService.saveUser(userDto);
 
@@ -39,12 +39,12 @@ public class UserSignupController {
     public ResponseEntity<?> getUser(@PathVariable("id") String id) {
         try {
             LOGGER.info("TasksController::: " + id);
+
             UserEntity task = userService.getUser(id);
 
             return ResponseEntity.ok(task);
-        }catch (RuntimeException exc) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Resource Not Found", exc);
+        } catch (RuntimeException exc) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
         }
     }
 }

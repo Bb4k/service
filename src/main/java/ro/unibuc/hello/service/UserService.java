@@ -1,7 +1,7 @@
 package ro.unibuc.hello.service;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,19 +25,17 @@ public class UserService {
 
         UserEntity userEntity = new UserEntity();
 
-        BeanUtils.copyProperties(userDTO, userEntity);
+        userEntity.setFirstName(userDTO.getFirstName());
+        userEntity.setLastName(userDTO.getLastName());
+        userEntity.setPassword(userDTO.getPassword());
+        userEntity.setEmail(userDTO.getEmail());
 
-        return userRepository.insert(userEntity);
+        return userRepository.save(userEntity);
     }
 
     public UserEntity getUser(String userId) {
-
-        ObjectId objId = new ObjectId(userId);
-
-        Optional<UserEntity> user = userRepository.findById(objId.toString());
-
+        Optional<UserEntity> user = userRepository.findById(userId);
         return user.get();
-
     }
 
 
