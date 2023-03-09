@@ -1,27 +1,22 @@
 package ro.unibuc.hello.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
+
 import javax.persistence.Id;
-import java.util.concurrent.atomic.AtomicLong;
-
-@Document(collection = "user")
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter(AccessLevel.PUBLIC)
+@Getter(AccessLevel.PUBLIC)
 public class UserEntity {
     @Id
-    private AtomicLong id;
+    private String id;
     private String firstName;
     private String lastName;
     private String password;
     private String email;
+
 }
 
 
