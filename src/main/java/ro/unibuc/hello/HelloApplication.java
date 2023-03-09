@@ -12,11 +12,13 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = {InformationRepository.class, UserRepository.class})
-
 public class HelloApplication {
 
 	@Autowired
 	private InformationRepository informationRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HelloApplication.class, args);
