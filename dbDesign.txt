@@ -6,7 +6,7 @@ password
 
 PROJECT
 id (PK)
-publisher (FK)
+user_id (FK)
 name
 description
 
