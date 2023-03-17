@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.dto.UserDto;
+import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.entity.UserEntity;
+import ro.unibuc.hello.util.PasswordUtil;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,7 +30,10 @@ public class UserService {
 
         userEntity.setFirstName(userDTO.getFirstName());
         userEntity.setLastName(userDTO.getLastName());
-        userEntity.setPassword(userDTO.getPassword());
+
+        String securePassword = PasswordUtil.generateSecurePassword(userDTO.getPassword(), userDTO.getEmail());
+        userEntity.setPassword(securePassword);
+
         userEntity.setEmail(userDTO.getEmail());
 
         return userRepository.save(userEntity);
@@ -41,4 +47,9 @@ public class UserService {
     public UserEntity getUserByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail);
     }
+
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
+
 }

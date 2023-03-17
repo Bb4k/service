@@ -10,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ro.unibuc.hello.dto.UserDto;
+import ro.unibuc.hello.entity.ProjectEntity;
 import ro.unibuc.hello.entity.UserEntity;
 import ro.unibuc.hello.service.UserService;
+import ro.unibuc.hello.util.PasswordUtil;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,6 +34,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
 
         LOGGER.info("RegisterController: " + userDto);
+
         UserEntity user = userService.saveUser(userDto);
 
         return ResponseEntity.ok(user);
@@ -42,7 +46,10 @@ public class UserController {
         String password = request.get("password");
 
         UserEntity foundUser = userService.getUserByEmail(email);
-        if (foundUser != null && foundUser.getPassword().equals(password)) {
+
+        boolean matchPassword = PasswordUtil.verifyUserPassword(password, foundUser.getPassword(), foundUser.getEmail());
+
+        if (foundUser != null && matchPassword) {
             return ResponseEntity.ok(foundUser);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
@@ -53,7 +60,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<?> getUser(@PathVariable("id") String id) {
         try {
-            LOGGER.info("TasksController::: " + id);
+            LOGGER.info("UserController::GetById::" + id);
 
             UserEntity task = userService.getUser(id);
 
@@ -62,5 +69,11 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
         }
     }
+
+    @GetMapping("/get-all")
+    public List<UserEntity> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
 }
 
