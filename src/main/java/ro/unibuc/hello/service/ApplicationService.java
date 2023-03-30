@@ -3,14 +3,8 @@ package ro.unibuc.hello.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ro.unibuc.hello.dto.ApplicationDto;
-import ro.unibuc.hello.dto.ProjectDto;
-import ro.unibuc.hello.dto.UpdateProjectDto;
 import ro.unibuc.hello.entity.ApplicationEntity;
 import ro.unibuc.hello.data.ApplicationRepository;
-import ro.unibuc.hello.entity.ProjectEntity;
-import ro.unibuc.hello.entity.UserEntity;
-import ro.unibuc.hello.exception.ProjectNotFoundException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +21,9 @@ public class ApplicationService {
         applicationEntity.setProjectId(applicationDto.getProjectId());
         // pending
         applicationEntity.setStatus(0);
+        applicationRepository.save(applicationEntity);
 
-        return applicationRepository.save(applicationEntity);
+        return applicationEntity;
     }
 
     public List<ApplicationEntity> getAppsByProjectId(String id) {
