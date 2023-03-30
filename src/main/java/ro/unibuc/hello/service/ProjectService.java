@@ -30,7 +30,12 @@ public class ProjectService {
 
     public ProjectEntity getProjectById(String projectId) {
         Optional<ProjectEntity> project = projectRepository.findById(projectId);
-        return project.get();
+        if (project.isPresent()) {
+            return project.get();
+        }
+        else {
+            throw new ProjectNotFoundException(projectId);
+        }
     }
 
     public List<ProjectEntity> getAllProjects() {
