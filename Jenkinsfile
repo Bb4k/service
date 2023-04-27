@@ -34,7 +34,7 @@ pipeline {
         stage('Run application') {
             steps{
                 sh """\
-                        IMAGE_VERSION=${IMAGE_VERSION} docker-compose up -d
+                        IMAGE_VERSION=${IMAGE_VERSION} docker-compose up -d hello
                    """.stripIndent()
             }
         }
